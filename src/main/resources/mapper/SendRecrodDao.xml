@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+        <!--void addSendRecord(SendRecord sendRecord);-->
+        <!--SendRecord querySendRecordByUserName(String userName);-->
+        <!--List<SendRecord> queryAllSendRecord();-->
+
+<mapper namespace="com.ysk.dao.SendRecordDao">
+        <insert id="addSendRecord" parameterType="com.ysk.entity.SendRecord">
+          INSERT send_record (id,username,content,create_time)VALUES (null,#{userName},#{content},#{createTime})
+        </insert>
+    <select id="querySendRecordByUserName" resultType="com.ysk.entity.SendRecord" >
+         SELECT * FROM  send_record WHERE username=#{userName}
+    </select>
+    <select id="queryAllSendRecord">
+         SELECT * FROM  send_record
+    </select>
+
+
+    <!-- 根据分页数据start 和size查询数据 -->
+    <select id="findByPage" resultType="com.ysk.entity.SendRecord" >
+        select *
+        from send_record
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+</mapper>

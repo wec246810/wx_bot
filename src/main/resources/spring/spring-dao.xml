@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd" >
+    <!--<context:component-scan base-package="com.ysk"/>-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <context:component-scan base-package="com.ysk.service"/>
+    <context:component-scan base-package="com.ysk.util"/>
+    <context:component-scan base-package="com.ysk.dto"/>
+    <context:component-scan base-package="com.ysk.aliPay"/>
+    <!--<context:component-scan base-package="com.ysk.dao"/>-->
+    <context:annotation-config></context:annotation-config>
+    <mvc:annotation-driven></mvc:annotation-driven>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${driverClass}"/>
+        <property name="jdbcUrl" value="${jdbcUrl}"/>
+        <property name="user" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <property name="minPoolSize" value="${minPoolSize}"/>
+        <property name="maxPoolSize" value="${maxPoolSize}"/>
+        <property name="checkoutTimeout" value="${checkoutTimeout}"/>
+        <property name="acquireRetryAttempts" value="${acquireRetryAttempts}"/>
+        <property name="autoCommitOnClose" value="${autoCommitOnClose}"/>
+    </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="typeAliasesPackage" value="com.ysk.entity"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+    <bean   class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.ysk.dao"/>
+    </bean>
+    <!--RedisDao-->
+    <!--<bean id="redisDao" class="com.ysk.cache.RedisDao">-->
+        <!--<constructor-arg index="0" value="localhost"/>-->
+        <!--<constructor-arg index="1" value="6379"/>-->
+    <!--</bean>-->
+</beans>

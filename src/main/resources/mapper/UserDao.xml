@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysk.dao.UserDao">
+    <select id="queryUserByID" resultType="user">
+        select * from user where id = #{id}
+    </select>
+    <select id="queryUserByName" resultType="user">
+        select * from user where username = #{userName}
+    </select>
+    <update id="updateUserPassWord" parameterType="com.ysk.entity.User">
+        UPDATE user SET password=#{password} WHERE username=#{userName}
+    </update>
+    <delete id="deleteUser">
+        DELETE FROM  user WHERE id=#{id}
+    </delete>
+    <insert id="addUser" parameterType="com.ysk.entity.User">
+        INSERT user (id,username,password,email,expiration_time) VALUES (null,#{username},#{password},#{email},#{expirationTime})
+    </insert>
+    <update id="updateUserExpireTime" parameterType="com.ysk.entity.User">
+          UPDATE user SET expiration_time=#{expirationTime} WHERE username=#{userName}
+    </update>
+</mapper>
